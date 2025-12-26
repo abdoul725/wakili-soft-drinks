@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wakili Soft Drink - Receipt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="receipt-box">
+    <div class="header">
+        <div class="company-info">
+            <h1>Wakili Soft Drink</h1>
+            <p>Opposite The Foundation, Adamawa State</p>
+        </div>
+        <div class="invoice-details">
+            <h2>RECEIPT</h2>
+            <p>Date: <span id="currentDate"></span></p>
+            <p>No: #<span id="receiptNum"></span></p>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody id="items-list">
+            </tbody>
+    </table>
+
+    <div class="totals-container">
+        <p>Subtotal: <span id="subtotal"></span></p>
+        <p class="grand-total">Total Paid: <span id="grandTotal"></span></p>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;" class="no-print">
+        <button onclick="window.print()" style="width: auto;">Print / Save as PDF</button>
+        <br><br>
+        <a href="landing.html">← Back to Store</a>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
