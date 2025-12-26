@@ -1,12 +1,12 @@
+// Initialize cart from localStorage (if it exists)
+let cart = JSON.parse(localStorage.getItem('wakiliCart')) || [];
+
 // --- LANDING PAGE FUNCTIONS ---
 
-/**
- * Adds a new drink card to the store grid dynamically.
- */
+// Function to add a new drink card to the store (Admin feature)
 function addNewDrink() {
     const nameInput = document.getElementById('newDrinkName');
     const priceInput = document.getElementById('newDrinkPrice');
-    
     const name = nameInput.value.trim();
     const price = priceInput.value.trim();
 
@@ -16,11 +16,8 @@ function addNewDrink() {
     }
 
     const grid = document.getElementById('mainGrid');
-    
-    // Create a unique ID based on the name to avoid conflicts
     const uniqueId = `qty-${name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`;
 
-    // Create the card element
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
@@ -29,70 +26,101 @@ function addNewDrink() {
             <h3>${name}</h3>
             <p class="price">₦${parseInt(price).toLocaleString()}</p>
             <input type="number" id="${uniqueId}" value="1" min="1">
-            <button onclick="generateReceipt('${name.replace(/'/g, "\\'")}', ${price}, '${uniqueId}')">
-                Select & Get Receipt
+            <button onclick="addToOrder('${name.replace(/'/g, "\\'")}', ${price}, '${uniqueId}')">
+                Add to Order
             </button>
         </div>
     `;
-
     grid.appendChild(card);
-
-    // Clear inputs after adding
     nameInput.value = "";
     priceInput.value = "";
 }
 
-/**
- * Redirects to the receipt page (index.html) with data in the URL.
- */
-function generateReceipt(name, price, qtyId) {
+// Function to add items to the list without leaving the page
+function addToOrder(name, price, qtyId) {
     const qtyInput = document.getElementById(qtyId);
-    if (!qtyInput) return;
+    const qty = parseInt(qtyInput.value);
+
+    if (qty < 1) return alert("Please enter a valid quantity");
+
+    // Check if drink is already in the cart
+    const existingItem = cart.find(item => item.name === name);
+    if (existingItem) {
+        existingItem.qty += qty;
+    } else {
+        cart.push({ name, price, qty });
+    }
+
+    // Save the list to browser memory
+    localStorage.setItem('wakiliCart', JSON.stringify(cart));
     
-    const qty = qtyInput.value;
-    
-    // encodeURIComponent handles spaces and special characters safely in the URL
-    window.location.href = `index.html?item=${encodeURIComponent(name)}&price=${price}&qty=${qty}`;
+    // Update the button text or alert to show it worked
+    alert(`${qty} x ${name} added to order!`);
+    updateCartCounter();
 }
 
+function updateCartCounter() {
+    const countSpan = document.getElementById('cart-count');
+    if (countSpan) {
+        const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+        countSpan.innerText = totalItems;
+    }
+}
 
-// --- RECEIPT PAGE FUNCTIONS ---
+function clearOrder() {
+    cart = [];
+    localStorage.removeItem('wakiliCart');
+    updateCartCounter();
+    alert("Order cleared!");
+}
+
+function generateFinalReceipt() {
+    if (cart.length === 0) {
+        alert("Your order is empty!");
+        return;
+    }
+    window.location.href = 'index.html';
+}
+
+// --- RECEIPT PAGE FUNCTIONS (Runs on index.html) ---
 
 window.onload = function() {
-    const urlParams = new URLSearchParams(window.location.search);
+    updateCartCounter();
+
+    const itemsList = document.getElementById('items-list');
     
-    // Check if we are on the receipt page by looking for the 'item' parameter
-    if (urlParams.has('item')) {
-        const item = decodeURIComponent(urlParams.get('item'));
-        const price = parseFloat(urlParams.get('price'));
-        const qty = parseInt(urlParams.get('qty'));
-        const total = price * qty;
-
-        // Set Date and Random Receipt Number
-        const dateEl = document.getElementById('currentDate');
-        const numEl = document.getElementById('receiptNum');
+    // If we are on the receipt page
+    if (itemsList) {
+        const savedCart = JSON.parse(localStorage.getItem('wakiliCart'));
         
-        if (dateEl) dateEl.innerText = new Date().toLocaleDateString();
-        if (numEl) numEl.innerText = Math.floor(Math.random() * 90000) + 10000;
+        if (!savedCart || savedCart.length === 0) {
+            itemsList.innerHTML = "<tr><td colspan='4'>No items in order</td></tr>";
+            return;
+        }
 
-        // Update Table Body
-        const itemsList = document.getElementById('items-list');
-        if (itemsList) {
-            itemsList.innerHTML = `
+        let grandTotal = 0;
+        itemsList.innerHTML = ""; // Clear the table
+
+        savedCart.forEach(item => {
+            const total = item.price * item.qty;
+            grandTotal += total;
+
+            itemsList.innerHTML += `
                 <tr>
-                    <td>${item}</td>
-                    <td>${qty}</td>
-                    <td>₦${price.toLocaleString()}</td>
+                    <td>${item.name}</td>
+                    <td>${item.qty}</td>
+                    <td>₦${item.price.toLocaleString()}</td>
                     <td>₦${total.toLocaleString()}</td>
                 </tr>
             `;
-        }
+        });
 
-        // Update Total Displays
-        const subtotalEl = document.getElementById('subtotal');
-        const grandTotalEl = document.getElementById('grandTotal');
-        
-        if (subtotalEl) subtotalEl.innerText = '₦' + total.toLocaleString();
-        if (grandTotalEl) grandTotalEl.innerText = '₦' + total.toLocaleString();
+        // Set Date and Receipt Number
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString();
+        document.getElementById('receiptNum').innerText = Math.floor(Math.random() * 90000) + 10000;
+
+        // Update Totals
+        document.getElementById('subtotal').innerText = '₦' + grandTotal.toLocaleString();
+        document.getElementById('grandTotal').innerText = '₦' + grandTotal.toLocaleString();
     }
 }

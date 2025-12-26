@@ -8,56 +8,59 @@
 </head>
 <body>
 
-   <header class="store-header">
+<header class="store-header">
     <h1>Wakili Soft Drink</h1>
     <p>Opposite The Foundation, Adamawa State</p>
 </header>
 
 <div class="hero-slider no-print">
     <div class="slide-track">
-        <img src="https://path-to-your-coke-image.png" alt="Coke">
-        <img src="https://path-to-your-fanta-image.png" alt="Fanta">
-        <img src="https://path-to-your-maltina-image.png" alt="Maltina">
-        <img src="https://path-to-your-pepsi-image.png" alt="Pepsi">
-        <img src="https://path-to-your-bigi-image.png" alt="Bigi">
-        <img src="https://path-to-your-coke-image.png" alt="Coke">
-        <img src="https://path-to-your-fanta-image.png" alt="Fanta">
+        <img src="https://www.pngplay.com/wp-content/uploads/12/Coca-Cola-PNG-Free-File-Download.png" alt="Coke">
+        <img src="https://www.pngplay.com/wp-content/uploads/12/Fanta-PNG-Free-File-Download.png" alt="Fanta">
+        <img src="https://www.pngplay.com/wp-content/uploads/12/Pepsi-Logo-PNG-Photos.png" alt="Pepsi">
+        <img src="https://www.pngplay.com/wp-content/uploads/12/Sprite-PNG-Free-File-Download.png" alt="Sprite">
+        <img src="https://www.pngplay.com/wp-content/uploads/12/Coca-Cola-PNG-Free-File-Download.png" alt="Coke">
     </div>
 </div>
 
-    <div class="admin-controls no-print">
-        <h3>Add New Drink</h3>
-        <div class="admin-form">
-            <input type="text" id="newDrinkName" placeholder="Drink Name (e.g. Pepsi)">
-            <input type="number" id="newDrinkPrice" placeholder="Price (e.g. 500)">
-            <button onclick="addNewDrink()">+ Add to Store</button>
+<div class="admin-controls no-print">
+    <h3>Add New Drink</h3>
+    <div class="admin-form">
+        <input type="text" id="newDrinkName" placeholder="Drink Name (e.g. Pepsi)">
+        <input type="number" id="newDrinkPrice" placeholder="Price (e.g. 500)">
+        <button onclick="addNewDrink()">+ Add to Store</button>
+    </div>
+</div>
+
+<div class="product-grid" id="mainGrid">
+    <div class="card">
+        <div class="card-body">
+            <button class="delete-btn" onclick="this.closest('.card').remove()">×</button>
+            <h3>Coca-Cola (50cl)</h3>
+            <p class="price">₦500</p>
+            <input type="number" id="qty-coke" value="1" min="1">
+            <button onclick="addToOrder('Coca-Cola', 500, 'qty-coke')">Add to Order</button>
         </div>
     </div>
 
-    <div class="product-grid" id="mainGrid">
-        
-        <div class="card">
-            <div class="card-body">
-                <button class="delete-btn" onclick="this.parentElement.parentElement.remove()">×</button>
-                <h3>Coca-Cola (50cl)</h3>
-                <p class="price">₦500</p>
-                <input type="number" id="qty-coke" value="1" min="1">
-                <button onclick="generateReceipt('Coca-Cola', 500, 'qty-coke')">Select & Get Receipt</button>
-            </div>
+    <div class="card">
+        <div class="card-body">
+            <button class="delete-btn" onclick="this.closest('.card').remove()">×</button>
+            <h3>Fanta Orange</h3>
+            <p class="price">₦450</p>
+            <input type="number" id="qty-fanta-1" value="1" min="1">
+            <button onclick="addToOrder('Fanta Orange', 450, 'qty-fanta-1')">Add to Order</button>
         </div>
+    </div>
+</div> 
 
-        <div class="card">
-            <div class="card-body">
-                <button class="delete-btn" onclick="this.parentElement.parentElement.remove()">×</button>
-                <h3>Fanta Orange</h3>
-                <p class="price">₦450</p>
-                <input type="number" id="qty-fanta-1" value="1" min="1">
-                <button onclick="generateReceipt('Fanta-Orange', 450, 'qty-fanta-1')">Select & Get Receipt</button>
-            </div>
-        </div>
+<div class="cart-footer no-print">
+    <button class="clear-btn" onclick="clearOrder()">Clear</button>
+    <button class="view-btn" onclick="generateFinalReceipt()">
+        🛒 View Order & Receipt (<span id="cart-count">0</span>)
+    </button>
+</div>
 
-    </div> 
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

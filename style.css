@@ -1,21 +1,51 @@
-/* Global Styles */
-
-/* --- Glowing Animated Background --- */
+/* --- Global & Background Styles --- */
 body {
     margin: 0;
     padding: 20px;
-    font-family: 'Segoe UI', sans-serif;
-    /* Nigerian-inspired vibrant colors: Green, Orange, Gold, and Blue */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Nigerian-inspired vibrant colors */
     background: linear-gradient(-45deg, #2ecc71, #e67e22, #f1c40f, #3498db);
     background-size: 400% 400%;
     animation: glowBG 15s ease infinite;
     min-height: 100vh;
+    color: #333;
+}
+@media (max-width: 480px) {
+    /* ... existing mobile styles ... */
+    
+    table th, table td {
+        padding: 8px 4px; /* Reduce padding for mobile */
+        font-size: 0.8rem; /* Smaller font so items don't wrap weirdly */
+    }
+    
+    .receipt-box {
+        padding: 15px; /* Less padding on small screens */
+    }
 }
 
 @keyframes glowBG {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+}
+
+/* --- Header Styling --- */
+.store-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.store-header h1 {
+    color: white;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5), 0 0 20px rgba(255,255,255,0.3);
+    font-size: 3rem;
+    margin: 0;
+}
+
+.store-header p {
+    color: #f8f9fa;
+    font-weight: bold;
+    font-size: 1.1rem;
 }
 
 /* --- Sliding Drink Showcase --- */
@@ -27,61 +57,76 @@ body {
     margin-bottom: 40px;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    background: rgba(255, 255, 255, 0.1); /* Glassmorphism effect */
+    background: rgba(255, 255, 255, 0.1); 
     backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
 }
 
 .slide-track {
     display: flex;
-    width: calc(250px * 10); /* Adjust based on number of images */
+    width: calc(250px * 10); 
     animation: scroll 20s linear infinite;
 }
 
 .slide-track img {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     object-fit: contain;
-    margin: 25px;
+    margin: 0 50px;
     filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
 }
 
 @keyframes scroll {
     0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-250px * 5)); } /* Moves left half-way */
+    100% { transform: translateX(calc(-250px * 5)); }
 }
 
-/* --- Header Text Glow --- */
-.store-header h1 {
-    color: white;
-    text-shadow: 0 0 10px rgba(255,255,255,0.5), 0 0 20px rgba(255,255,255,0.3);
-    font-size: 3rem;
+/* --- Admin Panel --- */
+.admin-controls {
+    background: #fff;
+    max-width: 800px;
+    margin: 0 auto 30px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
 }
 
-.store-header p {
-    color: #f8f9fa;
-    font-weight: bold;
+.admin-form { 
+    display: flex; 
+    gap: 10px; 
+    justify-content: center; 
 }
+
+.admin-form input { 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    flex: 1;
+}
+
+/* --- Product Grid & Cards --- */
 .product-grid { 
     display: flex; 
-    justify-content: center; /* Centers cards horizontally */
-    align-items: flex-start; /* Aligns them to the top of the row */
-    gap: 30px;               /* Space between cards */
-    flex-wrap: wrap;         /* Allows cards to wrap to the next line */
-    max-width: 1200px;       /* Keeps the grid from getting too wide */
-    margin: 0 auto;          /* Centers the entire grid container */
+    justify-content: center; 
+    align-items: flex-start; 
+    gap: 25px; 
+    flex-wrap: wrap; 
+    max-width: 1200px; 
+    margin: 0 auto; 
 }
 
 .card { 
     background: white; 
-    border-radius: 12px;     /* Slightly rounder corners for a modern look */
+    border-radius: 12px; 
     box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
     width: 260px; 
-    transition: transform 0.2s; /* Makes it pop on hover */
+    position: relative;
+    transition: transform 0.2s; 
 }
 
-.card:hover {
-    transform: translateY(-5px); /* Gentle lift effect */
-}
+.card:hover { transform: translateY(-5px); }
 
 .card-body { 
     padding: 25px; 
@@ -95,13 +140,59 @@ body {
     margin: 10px 0;
 }
 
+.delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* --- Receipt Styling --- */
+.receipt-box { 
+    max-width: 600px; 
+    margin: 20px auto; 
+    padding: 30px; 
+    background: #fff; 
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.header { 
+    display: flex; 
+    justify-content: space-between; 
+    border-bottom: 3px solid #2c3e50; 
+    padding-bottom: 15px; 
+}
+
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 20px; 
+}
+
+table th { background: #2c3e50; color: white; padding: 10px; text-align: left; }
+table td { padding: 10px; border-bottom: 1px solid #eee; }
+
+.grand-total { 
+    font-weight: bold; 
+    font-size: 1.4rem; 
+    color: #c0392b; 
+}
+
+/* --- Form Elements & Buttons --- */
 input[type="number"] { 
     width: 60px; 
     padding: 8px; 
     margin-bottom: 15px; 
     border: 1px solid #ddd; 
     border-radius: 4px; 
-    text-align: center;
 }
 
 button { 
@@ -111,133 +202,42 @@ button {
     padding: 12px 15px; 
     border-radius: 6px; 
     cursor: pointer; 
-    width: 100%; 
     font-weight: 600;
 }
 
-button:hover { 
-    background: #d35400; 
-}
-/* --- Global Styles --- */
-body { 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    background-color: #f4f7f6; 
-    color: #333; 
-    margin: 0; 
-    padding: 20px; 
+button:hover { background: #d35400; }
+
+/* --- MOBILE RESPONSIVENESS (The Update) --- */
+
+@media (max-width: 768px) {
+    .product-grid { gap: 15px; }
+    .card { width: 45%; } /* Two cards per row on tablets */
+    .store-header h1 { font-size: 2.2rem; }
 }
 
-/* --- Receipt Box Container --- */
-.receipt-box { 
-    max-width: 750px; 
-    margin: 40px auto; 
-    padding: 40px; 
-    border: 1px solid #ddd; 
-    background: #fff; 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    border-radius: 8px;
-}
+@media (max-width: 480px) {
+    body { padding: 10px; }
+    
+    .hero-slider { height: 160px; }
+    .slide-track img { width: 100px; height: 100px; margin: 0 20px; }
 
-/* --- Receipt Header (Flexbox Layout) --- */
-.header { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: flex-start;
-    border-bottom: 3px solid #2c3e50; 
-    padding-bottom: 20px; 
-    margin-bottom: 30px;
-}
-
-.company-info h1 { margin: 0; color: #2c3e50; font-size: 1.8rem; }
-.company-info p { margin: 5px 0; color: #777; }
-
-.invoice-details { text-align: right; }
-.invoice-details h2 { margin: 0; color: #e67e22; letter-spacing: 2px; }
-.invoice-details p { margin: 5px 0; font-weight: bold; }
-
-/* --- Table Styling --- */
-table { 
-    width: 100%; 
-    border-collapse: collapse; 
-    margin-top: 20px; 
-}
-
-table th { 
-    background: #2c3e50; 
-    color: white; 
-    padding: 12px; 
-    text-align: left; 
-    text-transform: uppercase;
-    font-size: 0.9rem;
-}
-
-table td { 
-    padding: 15px 12px; 
-    border-bottom: 1px solid #eee; 
-}
-
-/* --- Totals Section --- */
-.totals-container { 
-    margin-top: 30px; 
-    text-align: right; 
-}
-
-.totals-container p { margin: 8px 0; font-size: 1.1rem; }
-
-.grand-total { 
-    font-weight: bold; 
-    font-size: 1.4rem !important; 
-    color: #c0392b; 
-    border-top: 2px solid #eee;
-    padding-top: 10px;
-}
-
-/* --- Navigation & Buttons --- */
-.no-print a {
-    text-decoration: none;
-    color: #3498db;
-    font-weight: bold;
-}
-
-.no-print a:hover {
-    text-decoration: underline;
+    .admin-form { flex-direction: column; }
+    
+    .product-grid { flex-direction: column; align-items: center; }
+    .card { width: 95%; } /* Full width cards on phones */
+    
+    .store-header h1 { font-size: 1.8rem; }
+    
+    .receipt-box { padding: 15px; width: 95%; }
+    .header { flex-direction: column; text-align: center; }
+    .invoice-details { text-align: center; margin-top: 10px; }
+    
+    button { width: 100%; padding: 15px; } /* Finger-friendly buttons */
 }
 
 /* --- Print Settings --- */
 @media print {
     .no-print { display: none !important; }
     body { background: white; padding: 0; }
-    .receipt-box { border: none; box-shadow: none; width: 100%; max-width: 100%; margin: 0; }
+    .receipt-box { box-shadow: none; border: 1px solid #000; width: 100%; }
 }
-/* Admin Panel Styling */
-.admin-controls {
-    background: #fff;
-    max-width: 800px;
-    margin: 0 auto 30px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    text-align: center;
-}
-.admin-form { display: flex; gap: 10px; justify-content: center; }
-.admin-form input { padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-
-/* Delete (Drop) Button */
-.card { position: relative; }
-.delete-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: #ff4d4d;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.delete-btn:hover { background: #cc0000; }
